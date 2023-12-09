@@ -23,7 +23,7 @@
     }
 
     .wrapper {
-      width: 300px;
+      width: 400px;
       height: 10px;
       height: auto;
       position: relative;
@@ -33,25 +33,25 @@
 
     input {
       padding: 10px;
-      width: 300px;
+      width: 400px;
       border-radius: 30px;
-      border: none;
+      border: 2px solid black;
     }
 
     #add {
       position: absolute;
-      padding: 10px;
+      padding: 11px;
       border-radius: 30px;
       border: none;
       right: 0;
-      background-color: rgb(234, 155, 98);
+      color: white;
+      background-color: black;
       cursor: pointer;
     }
 
     .forms {
-      width: 500px;
-      height: auto; /* Changed to auto to allow dynamic height */
-      background-color: rgb(243, 201, 172);
+      width: 700px;
+      height: auto;
       position: relative;
       display: flex;
       flex-direction: column;
@@ -60,7 +60,6 @@
       border-radius: 30px;
       margin: 20px 20px;
       overflow: hidden;
-      transition: height 0.3s ease-out;
       padding: 20px;
     }
 
@@ -72,8 +71,13 @@
       justify-content: start;
     }
 
+    .completed{
+      position: relative;
+      display: flex;
+    }
     h2 {
       font-size: 18px;
+      text-align: center;
     }
     li{
         position: relative;
@@ -89,27 +93,16 @@
         font-size: 12px;
         border-radius: 30px;
         border: none;
-        background-color: rgb(234, 155, 98);
+        color: white;
+        background-color: black;
     }
-    .circle{
-        width: 100px;
-        height: 100px;
-        background-color: rgb(234, 155, 98);
-        border-radius: 50%;
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .small-circle{
-        width: 60%;
-        height: 60%;
-        border-radius: 50%;
-        background-color: rgb(243, 201, 172);
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    .task-wrapper{
+      position: relative;
+      display: flex;
+      width: 100%;
+      height: 100%;
+      flex-direction: row;
+      justify-content: space-between;
     }
   </style>
 </head>
@@ -118,42 +111,37 @@
   <div id="app">
     <h1>Task Management App</h1>
 
-    <!-- Task Form -->
+
     <form @submit.prevent="addTask" class="forms">
       <div class="wrapper">
         <input type="text" id="taskTitle" placeholder="Add new task" v-model="newTaskTitle" required>
         <button id="add" type="submit">Add Task</button>
       </div>
 
-    <!-- Task List -->
-    <div ref="incompleteContainer" class="column">
-      <h2>Incomplete Tasks</h2>
-      <ul>
-        <li v-for="task in incompleteTasks" :key="task.id">
-          {{ task.title }}
-          <button class="btn-cmplt" @click="markComplete(task)">Mark Complete</button>
-        </li>
-      </ul>
+    <div class="task-wrapper">
+      <div ref="incompleteContainer" class="column">
+        <h2>Incomplete Tasks</h2>
+        <ul>
+          <li v-for="task in incompleteTasks" :key="task.id">
+            {{ task.title }}
+            <button class="btn-cmplt" @click="markComplete(task)">Mark Complete</button>
+          </li>
+        </ul>
+      </div>
+
+      <div ref="completeContainer" class="column">
+        <h2>Completed Tasks</h2>
+        <ul>
+          <li v-for="task in completedTasks" :key="task.id">
+            {{ task.title }}
+            <button class="btn-cmplt" @click="markIncomplete(task)">Mark Incomplete</button>
+          </li>
+        </ul>
+      </div>
     </div>
 
-    <div ref="completeContainer" class="column">
-      <h2>Completed Tasks</h2>
-      <ul>
-        <li v-for="task in completedTasks" :key="task.id">
-          {{ task.title }}
-          <button class="btn-cmplt" @click="markIncomplete(task)">Mark Incomplete</button>
-        </li>
-      </ul>
-    </div>
-
-    <!-- Task Statistics -->
-    <div class="column">
-        <h2>Completed:</h2>
-        <div class="circle">
-            <div class="small-circle">
-                {{persentage}} %
-            </div>
-        </div>
+    <div class="completed">
+        <h2>Completed: {{persentage}} %</h2>
     </div>
     </form>
   </div>
@@ -215,3 +203,4 @@
   </script>
 </body>
 </html>
+
